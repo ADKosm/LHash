@@ -52,9 +52,9 @@ You can insert element between any neighboring elements.
 ```
 var elementA = hasher.allocate(firstElem, thirdElem); // Insert element between first ans third element
 
-var elementB = hasher.allocate(secondElem, thirdElem); // WRONG! second and thord elements are now neighbours because of first element between them
+var elementB = hasher.allocate(secondElem, thirdElem); // WRONG! second and third elements are not neighbours because of first element between them
 
-var elementC = haser.allocate(firstElem, secondElem); // WRONG! order in arguments is important! Second element must go before first
+var elementC = haser.allocate(firstElem, secondElem); // WRONG! order in arguments is important! Second element must go before first in this example
 ```
 
 # Tests
