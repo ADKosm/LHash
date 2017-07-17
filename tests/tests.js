@@ -109,6 +109,28 @@ describe("LHash basic functionality", function() {
         }
     });
 
+    it("allocate multiple hashes from two different users", function () {
+        var hasher1 = new LHash({'id': 32143});
+        var hasher2 = new LHash({'id': 41344});
+
+        var hashes = [hasher1.allocate('0', 'z')];
+        for(var i = 0; i < 200; i++) {
+            if(i % 2 == 0) {
+                hashes.push(hasher1.allocate(hashes[hashes.length - 1], 'z'));
+            } else {
+                hashes.push(hasher2.allocate(hashes[hashes.length - 1], 'z'));
+            }
+        }
+
+        for(var i = 1; i < 201; i++) {
+            assert.isTrue(hashes[i-1] < hashes[i]);
+        }
+
+        var set = new Set(hashes);
+
+        assert.equal(set.size, 201);
+    });
+
 });
 
 describe("LHash benchmark", function() {
