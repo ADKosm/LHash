@@ -1,5 +1,5 @@
 /**
- * Created by alex on 16.07.17.
+ * Created by ADKosm on 16.07.17.
  */
 
 alphabet = [
@@ -12,7 +12,7 @@ alphabetSize = alphabet.length;
 spliter = '#';
 
 /**
- * Subsidiary data structure for lhash
+ * Subsidiary data structure for lhash. Don't use it by yourself
  * @param hash {string}
  * @constructor
  */
@@ -26,9 +26,34 @@ LKey = function (hash) {
     }
 };
 
+/**
+ * Module for calculating LHash of ordered collection items.
+ * @param options - map of options, described below
+ *
+ * @param boundary {number} optional - size of boundary. Equals to 5 by default
+ * @param id {number} optional - user id. if set, then activate anticollision mechanism based on id
+ * @constructor
+ */
+LHash = function (options) {
+    if(options){
+        var boundary = options.boundary;
+        var id = options.id;
 
-LHash = function () { // TODO: add parameters
-    this.boundary = 5;
+        this.boundary = boundary | 5;
+        if(id) {
+            this.id = spliter;
+            while(id > 0) {
+                this.id += alphabet[ id % alphabetSize ];
+                id = Math.floor(id / alphabetSize);
+            }
+        } else {
+            this.id = "";
+        }
+    } else {
+        this.boundary = 5;
+        this.id = "";
+    }
+
 
     var self = this;
 
@@ -129,6 +154,6 @@ LHash = function () { // TODO: add parameters
             newHash += alphabet[alphabet.indexOf(right.at(depth)) - generator()];
         }
 
-        return newHash;
+        return newHash + self.id;
     };
 };
