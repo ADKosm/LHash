@@ -84,20 +84,6 @@ LHash = function (options) {
     };
 
     /**
-     * Maximal left position on that depth relates to key
-     * @param key {LKey}
-     * @param depth
-     * @returns {LKey}
-     * @private
-     */
-    this._leftBorder = function (key, depth) {
-        var border = "";
-        for(var i = 0; i < depth; i++) border += key.at(i);
-        border += alphabet[0];
-        return new LKey(border);
-    };
-
-    /**
      * Find free space between two hashes
      * @param p {LKey} - left hash covered in LKey
      * @param q {LKey} - right hash covered in LKey

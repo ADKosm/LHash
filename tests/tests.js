@@ -172,4 +172,28 @@ describe("LHash benchmark", function() {
         assert.isTrue(mean < 45);
     });
 
+
+    it('mean lenght while uniform pushing', function () {
+        var hasher = new LHash();
+        var hashes = [hasher.allocate('0', 'z')];
+        for(var i = 0; i < 9; i++) {
+            hashes.unshift(hasher.allocate('0', hashes[0]));
+        }
+
+        for(var j = 0; j < 10; j++) {
+            var len = hashes.length
+            for(var i = 1; i < len; i++) {
+                hashes.push(hasher.allocate(hashes[i-1], hashes[i]));
+            }
+            hashes.sort();
+        }
+
+        var mean = 0;
+        for(var i = 0; i < hashes.length; i++) {
+            mean += hashes[i].length;
+        }
+        mean /= hashes.length;
+
+        assert.isTrue(mean < 5.5);
+    });
 });
